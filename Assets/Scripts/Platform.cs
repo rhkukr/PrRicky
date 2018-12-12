@@ -27,6 +27,7 @@ public class Platform : MonoBehaviour {
 			renderer.material = mats[0];
 		}
 		transform.position = position;
+		transform.rotation = Quaternion.identity;
 		rigidbody.isKinematic = true;
 		collider2D.enabled = true;
 		collider2D.isTrigger = false;
@@ -53,7 +54,6 @@ public class Platform : MonoBehaviour {
 	public void TriggerDeath() {
 		collider2D.enabled = false;
 		rigidbody.isKinematic = false;
-		var dir = Random.Range(-0.5f, 0.5f);
-		rigidbody.AddForce(new Vector2(dir, 1f) * 10, ForceMode2D.Impulse);
+		rigidbody.AddTorque(Random.Range(-100f, 100f));
 	}
 }

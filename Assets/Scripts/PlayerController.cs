@@ -10,12 +10,15 @@ public class PlayerController : MonoBehaviour {
 	public float speed;
 	public ArenaChecker arena;
 	public LevelManager level;
+	public TrailRenderer trail;
+	public ParticleSystem particle;
 	
 	private bool hasCollided;
 	private bool triggeredPasscheck;
 	private Vector2 passCheckPos;
 
 	private void Update() {
+		trail.enabled = rigidbody.velocity.magnitude >= 12;
 		var horizontal = Input.GetAxis("Horizontal");
 		var move = horizontal * speed * Time.deltaTime;
 		transform.Translate(new Vector3(move,0,0));
@@ -34,11 +37,22 @@ public class PlayerController : MonoBehaviour {
 		if (other.gameObject.layer == 8) {
 			hasCollided = true;
 			rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+			if(other.relativeVelocity.magnitude >= 12) level.triggerPassPlatform();
+		}
+		if (other.gameObject.layer == 9) {
+			if(other.relativeVelocity.magnitude >= 12) level.triggerPassPlatform();
+			else {
+				hasCollided = true;
+				particle.gameObject.transform.position = other.contacts[0].point;
+				particle.Emit(10);
+				gameObject.SetActive(false);
+				level.TriggerDeath();
+				triggeredPasscheck = false;
+			}
 		}
 	}
 
-	private void OnTriggerEnter(Collider other) {
-		Debug.Log("triggerEnter");
+	private void OnTriggerEnter2D(Collider2D other) {
 		if(triggeredPasscheck) return;
 		if (other.gameObject.layer == 10) {
 			triggeredPasscheck = true;
