@@ -19,7 +19,6 @@ public class LevelManager : MonoBehaviour {
 	public float score;
 
 	private float nextYPos;
-	float lastPos;
 	private Vector2 playerOriginPos;
 	private Vector3 cameraOriginPos;
 
@@ -27,7 +26,6 @@ public class LevelManager : MonoBehaviour {
 		platformPool = new List<Platform>();
 		platforms = new List<List<Platform>>();
 		nextYPos = 0;
-		lastPos = 0;
 		score = 0;
 		playerOriginPos = player.transform.position;
 		cameraOriginPos = gameObject.transform.position;
@@ -46,11 +44,6 @@ public class LevelManager : MonoBehaviour {
 			platforms.Add(temp);
 			nextYPos += lineGap;
 			temp[Random.Range(0, temp.Count)].setAsPass();
-			if (lastPos > arena.gameObject.transform.position.y) {
-				score += lastPos - arena.gameObject.transform.position.y;
-				lastPos = arena.gameObject.transform.position.y;
-				scoreCounter.text = Mathf.Floor(score).ToString();
-			}
 		}
 		
 		foreach (var platform in platformPool) {
@@ -74,6 +67,8 @@ public class LevelManager : MonoBehaviour {
 			platform.TriggerDeath();
 		}
 		platforms.RemoveAt(0);
+		score++;
+		scoreCounter.text = Mathf.Floor(score).ToString();
 	}
 
 	public void TriggerDeath() {
@@ -83,7 +78,6 @@ public class LevelManager : MonoBehaviour {
 	public void resetGame() {
 		restartButton.gameObject.SetActive(false);
 		nextYPos = 0;
-		lastPos = 0;
 		score = 0;
 		scoreCounter.text = Mathf.Floor(score).ToString();
 		player.gameObject.transform.position = playerOriginPos;
