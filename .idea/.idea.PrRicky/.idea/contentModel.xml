@@ -6,7 +6,6 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets/Scripts" t="Include">
         <e p="ArenaChecker.cs" t="Include" />
-        <e p="GameStateManager.cs" t="Include" />
         <e p="LevelManager.cs" t="Include" />
         <e p="Platform.cs" t="Include" />
         <e p="PlayerController.cs" t="Include" />

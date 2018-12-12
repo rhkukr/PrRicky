@@ -6,6 +6,7 @@ public class ArenaChecker : MonoBehaviour {
 	public Camera mainCamera;
 	public GameObject player;
 	public float playerCameraOffset;
+	public SpriteRenderer background;
 	
 	[HideInInspector]
 	public float leftBorder;
@@ -31,6 +32,7 @@ public class ArenaChecker : MonoBehaviour {
 			var pos = mainCamera.gameObject.transform.position;
 			pos.y = player.transform.position.y - playerCameraOffset;
 			mainCamera.gameObject.transform.position = pos;
+			background.material.mainTextureOffset = pos * 0.1f;
 		}
 		
 	}
